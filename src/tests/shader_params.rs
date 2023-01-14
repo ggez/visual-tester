@@ -23,7 +23,7 @@ impl Test for ShaderParams {
         let shader = graphics::ShaderBuilder::new_wgsl()
             .fragment_code(include_str!("../../../resources/dimmer.wgsl"))
             .build(&ctx.gfx)?;
-        let params = graphics::ShaderParamsBuilder::new(&dim).build(ctx);
+        let mut params = graphics::ShaderParamsBuilder::new(&dim).build(ctx);
 
         let circle = graphics::Mesh::new_circle(
             ctx,
@@ -36,8 +36,8 @@ impl Test for ShaderParams {
         canvas.draw(&circle, Vec2::new(0.0, 0.0));
 
         params.set_uniforms(ctx, &dim);
-        canvas.set_shader(shader.clone());
-        canvas.set_shader_params(params.clone());
+        canvas.set_shader(&shader);
+        canvas.set_shader_params(&params);
         let circle = graphics::Mesh::new_circle(
             ctx,
             DrawMode::fill(),
@@ -50,7 +50,7 @@ impl Test for ShaderParams {
 
         let uniforms = Dim { rate: 0.75 };
         let params = graphics::ShaderParamsBuilder::new(&uniforms).build(ctx);
-        canvas.set_shader_params(params);
+        canvas.set_shader_params(&params);
         let circle = graphics::Mesh::new_circle(
             ctx,
             DrawMode::fill(),
